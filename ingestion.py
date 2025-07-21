@@ -1,10 +1,16 @@
 import os
 from langchain_pinecone import PineconeVectorStore
 from langchain_nomic import NomicEmbeddings
+from langchain_docling import DoclingLoader
 from pinecone import Pinecone, ServerlessSpec
 
 PINECONE_API_KEY = os.getenv("PINECONE_API_KEY")
 NOMIC_API_KEY = os.getenv("NOMIC_API_KEY")
+
+def load_and_chunk(filepath: str):
+    loader = DoclingLoader(file_path=filepath)
+    docs = loader.load()
+    
 
 class Embeddings:
     def __init__(self):
@@ -20,7 +26,7 @@ class VectorStore:
     def __init__(self):
         self.pc = Pinecone(api_key=PINECONE_API_KEY)
         self.index_name = "bank-index"
-        self.dimension = 768  # Update this if your embedding dimension changes
+        self.dimension = 768 
         self.index = None
 
     def create_index(self):
