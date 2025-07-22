@@ -4,8 +4,8 @@
 - [x] Document loading and chunking (DoclingLoader + UnstructuredElementNodeParser)
 - [x] Embedding generation (NomicEmbeddings)
 - [x] Vector store setup and ingestion (Pinecone)
-- [ ] Retrieval chain implementation (RetrievalQA, ConversationalRetrievalChain)
-- [ ] LLM integration and prompt engineering
+- [x] Retrieval chain implementation (RetrievalQA, ConversationalRetrievalChain)
+- [x] LLM integration and prompt engineering
 - [ ] Memory for conversation context
 - [ ] Custom chunking for cross-references and table context
 - [ ] Consistency and compliance validation in responses
@@ -17,9 +17,9 @@
 - [ ] Cost-Effective RAG Implementation Guide (cost analysis, trade-offs, recommendations)
 
 ## Usability & Testing
-- [ ] Main orchestration script (CLI, API, or UI)
-- [ ] Test cases and sample queries
-- [ ] Example banking documents for testing
+- [x] Main orchestration script (CLI, API, or UI)
+- [x] Test cases and sample queries
+- [x] Example banking documents for testing
 
 ## Deployment & Optimization
 - [ ] Embedding caching and batch processing logic

@@ -22,7 +22,7 @@ retriever = db.as_retriever()
 # 4. Set up Groq LLM
 llm = ChatGroq(
     groq_api_key=GROQ_API_KEY,
-    model_name="mixtral-8x7b-32768",  # or another supported model
+    model_name="llama-3.1-8b-instant",  # or another supported model
     temperature=0.2,
     max_tokens=512,
 )
