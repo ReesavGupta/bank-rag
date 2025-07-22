@@ -4,3 +4,4 @@ langchain-pinecone
 langchain-nomic
 langchain-docling
 pinecone
+langchain-groq
