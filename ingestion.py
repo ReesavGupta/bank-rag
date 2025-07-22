@@ -1,7 +1,11 @@
 import os
+from llama_index.core.node_parser import UnstructuredElementNodeParser 
+from llama_index.core.schema import MetadataMode 
+from llama_index.core import Document as LlamaDocument
+from langchain.schema import Document
 from langchain_pinecone import PineconeVectorStore
 from langchain_nomic import NomicEmbeddings
-from langchain_docling import DoclingLoader
+from langchain_docling.loader import DoclingLoader
 from pinecone import Pinecone, ServerlessSpec
 
 PINECONE_API_KEY = os.getenv("PINECONE_API_KEY")
@@ -9,8 +13,28 @@ NOMIC_API_KEY = os.getenv("NOMIC_API_KEY")
 
 def load_and_chunk(filepath: str):
     loader = DoclingLoader(file_path=filepath)
-    docs = loader.load()
+    docs = loader.load()  # list of raw LangChain Documents
     
+    # Convert LangChain Documents to LlamaIndex Documents
+    llama_docs = [
+        LlamaDocument(text=doc.page_content, metadata=doc.metadata or {})
+        for doc in docs
+    ]
+
+
+    node_parser = UnstructuredElementNodeParser()
+    # get structured nodes (table-aware, hierarchical)
+    nodes = node_parser.get_nodes_from_documents(documents=llama_docs)
+    
+    # Convert nodes to LangChain Documents suitable for Pinecone ingestion
+    chunked_docs = []
+    for node in nodes:
+        content = node.get_content(metadata_mode=MetadataMode.ALL)
+        metadata = node.metadata or {}
+        chunked_docs.append(Document(page_content=content, metadata=metadata))
+    
+    print(f"Loaded and chunked into {len(chunked_docs)} structured documents.")
+    return chunked_docs
 
 class Embeddings:
     def __init__(self):
